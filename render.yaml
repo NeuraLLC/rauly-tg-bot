@@ -1,0 +1,21 @@
+services:
+  - type: cron
+    name: rauly-tg-bot
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    schedule: "0 9 * * *"  # Runs daily at 9:00 AM UTC
+    envVars:
+      - key: API_ID
+        sync: false
+      - key: API_HASH
+        sync: false
+      - key: PHONE_NUMBER
+        sync: false
+      - key: GOOGLE_SHEET_ID
+        sync: false
+      - key: GOOGLE_SERVICE_ACCOUNT_FILE
+        value: /etc/secrets/service_account.json
+    disk:
+      name: rauly-data
+      mountPath: /app/sessions
+      sizeGB: 1
