@@ -19,6 +19,7 @@ RUN mkdir -p /app/sessions /app/logs
 
 # Set environment variable for Telethon session path
 ENV SESSION_PATH=/app/sessions/rauly_session
+ENV PYTHONUNBUFFERED=1
 
 # Command to run the application (Background worker mode)
 # In production, we typically run a script that keeps the bot alive
