@@ -85,7 +85,7 @@ async def main():
         await run_report()
 
     elif command == "export-session":
-        await client.start(phone=PHONE)
+        # No need to connect — session data is already loaded from the file
         session_string = StringSession.save(client.session)
         print("Copy this SESSION_STRING into your Render environment variables:\n")
         print(session_string)
