@@ -16,6 +16,29 @@ def get_sheets_client():
     client = gspread.authorize(credentials)
     return client
 
+def get_group_links(sheet_name="Watchlist"):
+    client = get_sheets_client()
+    if not client:
+        return []
+
+    sheet_id = os.getenv('GOOGLE_SHEET_ID')
+    try:
+        sh = client.open_by_key(sheet_id)
+        try:
+            worksheet = sh.worksheet(sheet_name)
+        except gspread.exceptions.WorksheetNotFound:
+            print(f"Worksheet '{sheet_name}' not found. Create it and add group links in column A.")
+            return []
+
+        links = worksheet.col_values(1)  # Column A
+        # Skip header row if present
+        if links and links[0].lower() in ('link', 'group link', 'url', 'group'):
+            links = links[1:]
+        return [link.strip() for link in links if link.strip()]
+    except Exception as e:
+        print(f"Error reading group links: {e}")
+        return []
+
 def update_google_sheet(data_rows, sheet_name="Rauly Reports"):
     client = get_sheets_client()
     if not client:

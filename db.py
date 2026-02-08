@@ -1,8 +1,12 @@
+import os
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import create_engine
+from dotenv import load_dotenv
 import datetime
+
+load_dotenv()
 
 Base = declarative_base()
 
@@ -37,7 +41,8 @@ class AdminRole(Base):
     group = relationship("Group", back_populates="admins")
     user = relationship("User", back_populates="admin_roles")
 
-engine = create_engine('sqlite:///rauly.db')
+DATABASE_URL = os.getenv('DATABASE_URL', 'sqlite:///rauly.db')
+engine = create_engine(DATABASE_URL)
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 

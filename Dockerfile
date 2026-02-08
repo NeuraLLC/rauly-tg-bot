@@ -23,4 +23,4 @@ ENV PYTHONUNBUFFERED=1
 
 # Command to run the application (Background worker mode)
 # In production, we typically run a script that keeps the bot alive
-CMD ["python", "main.py", "report"]
+CMD ["python", "main.py", "auto"]

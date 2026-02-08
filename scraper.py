@@ -1,6 +1,7 @@
 import os
 import asyncio
 from telethon import TelegramClient, events, functions, types
+from telethon.sessions import StringSession
 from telethon.tl.functions.channels import JoinChannelRequest, GetParticipantRequest
 from telethon.tl.types import ChannelParticipantCreator, ChannelParticipantAdmin
 from dotenv import load_dotenv
@@ -14,9 +15,13 @@ load_dotenv()
 API_ID = os.getenv('API_ID')
 API_HASH = os.getenv('API_HASH')
 PHONE = os.getenv('PHONE_NUMBER')
+SESSION_STRING = os.getenv('SESSION_STRING')
 SESSION_PATH = os.getenv('SESSION_PATH', 'rauly_session')
 
-client = TelegramClient(SESSION_PATH, API_ID, API_HASH)
+if SESSION_STRING:
+    client = TelegramClient(StringSession(SESSION_STRING), API_ID, API_HASH)
+else:
+    client = TelegramClient(SESSION_PATH, API_ID, API_HASH)
 
 async def join_group(group_link):
     try:
